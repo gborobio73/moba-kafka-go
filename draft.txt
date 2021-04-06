@@ -1,0 +1,156 @@
+MOBA - Multiplayer online battle arena
+
+Arenas: river, lake, sea
+
+Lake arena: Team A and Team B, five players each
+     1               5   6              10
+   +---+---+---+---+---+---+---+---+---+---+        Initial               Walls
+10 |   |A1 |   |   |A3 |   |   |   |   |A5 | 10     (x, y, #grenades)
+   +---+---+---+---+---+---+---+---+---+---+        A1(2, 10, 5)             
+   |   |   |A2 |   |   |   | A4|   |   |   |        A2(3, 9, 5)              
+   +---+---+---+---+---+---+---+---+---+---+        A3(5, 10, 5)         
+   |   |   |///|///|   |   |   |///|///|   |        A4(7, 9, 5)            W(3, 8) W(4, 8) W(8, 8) W(9, 8)
+   +---+---+---+---+---+---+---+---+---+---+        A5(10, 10, 5)
+   |   |   |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+---+---+
+   |///|///|   |   |   |   |   |   |   |   | 6                             W(1, 6) W(2, 6)
+Y  +---+---+---+---+---+---+---+---+---+---+
+   |   |   |   |   |   |   |   |   |///|///| 5                             W(9, 5) W(9, 10)
+   +---+---+---+---+---+---+---+---+---+---+
+   |   |   |   |   |   |   |   |   |   |   |        (x, y, #grenades)
+   +---+---+---+---+---+---+---+---+---+---+        B1(1, 1, 5)
+   |   |///|///|   |   |   |///|///|   |   |        B2(4, 2, 5)            W(2, 3) W(3, 3) W(7, 3) W(8, 3)
+   +---+---+---+---+---+---+---+---+---+---+        B3(6, 1, 5)
+   |   |   |   |B2 |   |   |   |B4 |   |   |        B4(8, 2, 5)
+   +---+---+---+---+---+---+---+---+---+---+        B5(9, 1, 5)
+ 1 |B1 |   |   |   |   |B3 |   |   |B5 |   | 1
+   +---+---+---+---+---+---+---+---+---+---+
+     1                 X                10
+
+
+Rules of engagement
+--------------------
+Players can only move on square at a time as left, right, up or down.
+Players can shoot a grenades only to the left, right, up or down; diagonal squares are blind spots ;)
+Player can either move or shoot
+
+
+Arena
+--------------------
+Valid moves: 
+  * A1 moves 1 position down => that we can represent as Mov(A1, Y, -). This results in a new position Pos(A1, 2, 9, 5) 
+  * B4 moves 1 position right => Mov(B4, X, +). This results in Pos(B4, 9, 2, 5)
+Invalid moves: 
+  * A2 moves 1 position down (A2, Y, -) => there's a wall, can't move. 
+      This results in player being same position as before Pos(A2, 3, 9)
+
+Grenades can be launch at any time; grenades kill opponents and destroy walls
+  *  B4 launches a grenade in front of him => Gre(B4, Y, +). This results in wall W(8,3) being removed and player B4 having one grenade less: Pos(B4, 8, 2, 4)
+  *  A3 launches a grenade in front of him => Gre(A3, Y, -). This results in player A4 having one grenade less: Pos(A3, 5, 10, 4)
+
+Architecture
+--------------------
+Client-server architecture
+https://www.gabrielgambetta.com/client-server-game-architecture.html
+
+Authoritative servers and dumb clients: 
+* Clients send movements
+* Server calculates positions and sends them back to clients
+* Since are many games played concurrently, each game is represented by a number plus the arena letter: R(iver), L(ake) S(ea)
+
+Kafka
+
+Intro to kafka 
+https://reaktor.slack.com/archives/C0260CYEE/p1551456845050000
+
+Clients send messages to kafka with players movements and grenade shoots: Mov/Gre(gameId, playerId, axis, plus or minus)
+Example: 
+  * { Game 23-L, Mov(A3, X, +) }: player A3 moves to the right, in game 23-L
+  * { Game 23-L, Gre(B2, Y, +) }: player B2 throws a grenade in front of her, in game 23-L
+    
+Server has kafka stream processors that receive those messages, compute the resulting positions and send those positions back to teh clients.
+It always sends all players' positions as an array, along the game id: { gameId, []Pos} (clients can render everything or just the diff)
+Example:
+  * Client sends:
+    { Game 23-L, Mov(A3, X, +) }
+  * Server produces:
+    { Game 23-L, 
+      [ 
+        { Pos(A1, 2, 10, 5) }, { Pos(A2, 3, 9, 5) }, { Pos(A3, 6, 10, 5) }, { Pos(A4, 7, 9, 5) }, { Pos(A5, 10, 10, 5) },
+        { Wall(3, 8) }, { Wall(4, 8) }, { Wall(8, 8) }, { Wall(9, 8) }, 
+        { Wall(1, 6) }, { Wall(2, 6) }, 
+        { W(9, 5) }, { W(9, 10) },
+        { Wall(2, 3) }, { Wall(3, 3) }, { Wall(7, 3) }, { Wall(8, 3) },
+        { Pos(B1, 1, 1, 5) }, { Pos(B2, 4, 2, 5) }, { Pos(B3, 6, 1, 5) }, { Pos(B4, 8, 2, 5)) }, { Pos(B5, 9, 1, 5) },
+      ]
+    }
+
+There's an initial handshake where the client receives the starting position of the arena
+
+Simple Design
+--------------------
+One topic called _actions_ where clients send players' moves and grenades, and another topic called _games_ where server sends players positions back to clients.
+Kafka message formats: Json
+* _actions_ topic:
+  {
+    key: string, // gameId*playerId e.g.: 23-L*B3
+    value :{
+      type: string, // mov or gra
+      gameId: string, // e.g. 23-L
+      playerId: string, // e.g. B3
+      axis: string, // X or Y
+      sign: string // + or -
+    }
+  }
+* _games_ topic:
+  {
+    key: string, // gameId e.g. 23-L,
+    value: {
+      players: [ { playerId: string, x: number, y: number, gra: number}, ... ],
+      walls: [ { x: number, y: number }, ... ]
+    }
+  }
+
+Code!
+
+
+
+
+
+
+
+
+Topics and partitions
+For simplicity, we will have only 2 topics:
+  * topic _actions_ will have the moves send by the clients
+  * topic _games_ will have the positions send by the server
+
+For now, since we are starting our game company, we are going to design the Kafka cluster to easily handle hundreds of concurrent games.
+In kafka, it is preferred to have more partitions than topics, so each of the topics will have 100 partitions and a replica factor of 2 (each partition is replicated once)
+Also, for simplicity, we will have a single kafka cluster (aka server) with a single broker
+
+
+
+
+According to this post https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster/ it's recommended to have up to 100 x NumBrokers x PartitionFactor
+Since we are starting our game, we are going to design the kafka structure based on having 1K concurrent games, and a cluster with 3 brokers.
+
+
+
+
+
+
+There will be many online games concurrently. Each game is represented as an id (number) and each arena is represented by a letter: R(iver), L(ake) S(ea)
+So, a player position is represented by the game id, arena id, x and y axis, and the number of available grenades
+    * Pos(23, L, A1, 2, 10, 5) => in game 23, arena Lake, player A1 is located in (X=1, Y=10) and has 5 grenades (as depicted above)
+
+
+Example
+Given the above board, that we can represented as an array:
+[
+    { Pos(A1, 2, 10, 5) }, { Pos(A2, 3, 9, 5) }, { Pos(A3, 5, 10, 5) }, { Pos(A4, 7, 9, 5) }, { Pos(A5, 10, 10, 5) },
+    { Pos(B1, 1, 1, 5) }, { Pos(B2, 4, 2, 5) }, { Pos(B3, 6, 1, 5) }, { Pos(B4, 8, 2, 5)) }, { Pos(B5, 9, 1, 5) },
+    { Wall(3,8) }, { Wall(4,8) }, { Wall(8,8) }, { Wall(9,8) }, { Wall(1,6) }, { Wall(2,6) }, { Wall(2,3) }, { Wall(3,3) }, { Wall(7,3) }, { Wall(8,3) } }
+]
+
+
