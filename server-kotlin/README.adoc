@@ -11,26 +11,12 @@ https://docs.confluent.io/platform/current/tutorials/examples/clients/docs/kotli
 
 
 
-Producer
+Run the server with default config (see gradle.properties)
+```
+./gradlew runApp
+```
 
-./gradlew runApp -PmainClass="io.confluent.examples.clients.cloud.ProducerExample" \
-     -PconfigPath="./java.config" \
-     -Ptopic="test1"
-
-Consumer
-./gradlew runApp -PmainClass="io.confluent.examples.clients.cloud.ConsumerExample"\
-     -PconfigPath="./java.config"\
-     -Ptopic="test1"
-
-
-Streams
-./gradlew runApp -PmainClass="io.confluent.examples.clients.cloud.StreamsExample" \
-     -PconfigPath="$HOME/.confluent/java.config" \
-     -Ptopic="test1"
-
-Aggregator
-
- ./gradlew runApp -PmainClass="com.reaktor.kafka.intro.aggregate.AggregatingReduce" \
-     -PconfigPath="./java.config" \
-     -PinputTopic="player-moves-0" \
-     -PoutputTopic="screens-0"
+Run the server with specific conf
+```
+ ./gradlew clean build runApp -Pinput=actions.partitions,5 -Poutput=games.partitions,5 -Pport=8091
+```
