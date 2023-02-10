@@ -30,11 +30,11 @@ dependencies {
 }
 
 repositories {
-  jcenter()
+  mavenCentral()
   maven(url = "https://packages.confluent.io/maven/")
 }
 
-val mainClass: String by project
+val app: String by project
 val input: String by project
 val output: String by project
 val port: String by project
@@ -44,7 +44,7 @@ tasks.withType<KotlinCompile> {
 }
 
 task("runApp", JavaExec::class) {
-  classpath = sourceSets["main"].runtimeClasspath
-  main = mainClass.toString()
-  args = listOf(input, output, port)
+  this.classpath = sourceSets["main"].runtimeClasspath
+  this.mainClass.set(app)
+  this.args = listOf(input, output, port)
 }
