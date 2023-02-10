@@ -42,3 +42,5 @@ Start server
 > cd moba-kafka-go/server-kotlin
 > ./gradlew clean build runApp -Pinput=actions.partitions,5 -Poutput=games.partitions,5 -Pport=8092
 ```
+
+Check the presentation [here](./kafka-moba.pdf)
