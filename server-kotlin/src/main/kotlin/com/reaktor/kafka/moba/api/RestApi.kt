@@ -46,8 +46,6 @@ class RestApi(
         val gameState = keyValueStore.get(gameId)
         if (gameState == null ) return Response.status(Response.Status.NOT_FOUND).entity(GameState()).build()
         else return Response.ok(gameState).build()
-
-        return Response.ok().build()
     }
 
 
@@ -65,8 +63,6 @@ class RestApi(
         range.forEach { games.add(it.key) }
         range.close()
         return Response.ok(games).build()
-
-        return Response.ok().build()
     }
 
     fun start():() -> Unit {
