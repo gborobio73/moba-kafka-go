@@ -3,7 +3,7 @@
 _Kafka as a backend_. We'll implement a MOBA game using Kafka consumers, producers and stream processors. We'll write code in GO (consumer and producer) and in Kotlin (stream processor). Then, we'll scale it!
 NOTE: it's an introduction to these topics and we'll write the code as we go.
 
-```
+```shell
 Game 1-A
 Controlling Player A2 (3 grenades left)
 +------------------------------------------------------------+
@@ -31,14 +31,14 @@ reload player grenades by pressing R -> you get one grenade, up to 5
 
 Start client
 
-```
+```shell
 > cd moba-kafka-go/client-go/cmd/client
 > go run client.go 127.0.0.1:29092 actions games 1 A1
 ```
 
 Start server
 
-```
+```shell
 > cd moba-kafka-go/server-kotlin
 > ./gradlew clean build runApp -Pinput=actions.partitions,5 -Poutput=games.partitions,5 -Pport=8092
 ```
