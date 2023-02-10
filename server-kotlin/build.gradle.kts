@@ -4,7 +4,7 @@ group = "com.reaktor.kafka"
 
 plugins {
   java
-  kotlin("jvm") version "1.3.11"
+  kotlin("jvm") version "1.8.10"
 }
 
 java {
@@ -31,7 +31,7 @@ dependencies {
 
 repositories {
   jcenter()
-  maven(url = "http://packages.confluent.io/maven/")
+  maven(url = "https://packages.confluent.io/maven/")
 }
 
 val mainClass: String by project
@@ -45,6 +45,6 @@ tasks.withType<KotlinCompile> {
 
 task("runApp", JavaExec::class) {
   classpath = sourceSets["main"].runtimeClasspath
-  main = mainClass
+  main = mainClass.toString()
   args = listOf(input, output, port)
 }
