@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="814abfde-b1bc-49d9-9414-0232ba37bd24" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/server-kotlin.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/ai/grenade.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/ai/grenade.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/ai/move.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/ai/move.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/api/RestApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/api/RestApi.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/api/streamsMetadata.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/api/streamsMetadata.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/streams/deltaStreams.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/streams/deltaStreams.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/streams/streams.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/streams/streams.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/StreamsApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/reaktor/kafka/moba/StreamsApp.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

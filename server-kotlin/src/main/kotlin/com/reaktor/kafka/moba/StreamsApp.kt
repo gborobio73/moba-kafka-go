@@ -42,7 +42,8 @@ fun main(args: Array<String>) {
   val storeName = "$outputTopic-store"
   val streams = buildAggregatedStreams(inputTopic, outputTopic, props, storeName)
 
-  val api = RestApi(streams, DEFAULT_HOST, port.toInt())
+//  val api = RestApi(streams, DEFAULT_HOST, port.toInt())
+  val api = InstanceResolverRestApi(streams, storeName, DEFAULT_HOST, port.toInt())
   val stop = api.start()
 
   streams.start()

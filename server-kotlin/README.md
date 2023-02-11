@@ -5,7 +5,7 @@ version of Java Producer and Consumer, and Kafka Streams API.
 
 ## Documentation
 
-This serves is based on:
+This server is based on:
 
 <https://docs.confluent.io/platform/current/clients/examples/kotlin.html>
 
