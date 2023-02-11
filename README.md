@@ -33,7 +33,7 @@ Start client
 
 ```shell
 > cd moba-kafka-go/client-go/cmd/client
-> go run client.go 127.0.0.1:29092 actions games 1 A1
+> go run client.go 127.0.0.1:29092 actions.partitions games.partitions 1 A1
 ```
 
 Start server

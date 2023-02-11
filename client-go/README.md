@@ -4,7 +4,7 @@
 go run client.go 127.0.0.1:29092 actions games 1 A2
 ```
 
-where 127.0.0.1:29092 is teh kafka broker address, actions games are the input and output topics, 1 is the game id, and A2 is the player you are controlling.
+where 127.0.0.1:29092 is the kafka broker address, actions games are the input and output topics, 1 is the game id, and A2 is the player you are controlling.
 
 Run the zombie AI
 

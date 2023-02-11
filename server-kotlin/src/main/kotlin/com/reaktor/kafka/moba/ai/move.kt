@@ -45,9 +45,8 @@ private fun playerCannotMove(action: Action, state: GameState): Boolean {
         return x !in 0..9 || y !in 0..9
     }
     fun thereIsSomethingThere(): Boolean {
-        if (state.walls.find { wall -> wall.x == x && wall.y == y && wall.health } != null) return true
-        if (state.players.find { player -> player.x == x && player.y == y && player.health } != null) return true
-        return false
+        return (state.walls.find { wall -> wall.x == x && wall.y == y && wall.health } != null) ||
+            (state.players.find { player -> player.x == x && player.y == y && player.health } != null)
     }
     fun isDead(): Boolean {
         return !player.health

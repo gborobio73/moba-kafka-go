@@ -2,7 +2,7 @@ package com.reaktor.kafka.moba.ai
 
 import com.reaktor.kafka.moba.model.*
 
-fun computeGrenateThrowAndAddDelta(gameId: Int, action: Action, state: GameState): GameStateWithDelta {
+fun computeGrenadeThrowAndAddDelta(gameId: Int, action: Action, state: GameState): GameStateWithDelta {
     val current = getCurrentPlayer(action, state) ?: return GameStateWithDelta(gameId, null, state)
 
     if(current.gre == 0 || !current.health) {
@@ -63,7 +63,7 @@ fun computeGrenateThrowAndAddDelta(gameId: Int, action: Action, state: GameState
     )
 }
 
-fun computeGrenateThrow(gameId: Int, action: Action, state: GameState): GameState {
+fun computeGrenadeThrow(gameId: Int, action: Action, state: GameState): GameState {
     val current = getCurrentPlayer(action, state) ?: return GameState(gameId, state.players, state.walls)
 
     if(current.gre == 0 || !current.health) {

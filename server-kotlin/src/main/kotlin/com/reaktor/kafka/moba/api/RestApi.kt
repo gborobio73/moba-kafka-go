@@ -44,8 +44,8 @@ class RestApi(
 
         val keyValueStore = streams.store(stores.first().first(), QueryableStoreTypes.keyValueStore<Int, GameState>())
         val gameState = keyValueStore.get(gameId)
-        if (gameState == null ) return Response.status(Response.Status.NOT_FOUND).entity(GameState()).build()
-        else return Response.ok(gameState).build()
+        return if (gameState == null ) Response.status(Response.Status.NOT_FOUND).entity(GameState()).build()
+        else Response.ok(gameState).build()
     }
 
 

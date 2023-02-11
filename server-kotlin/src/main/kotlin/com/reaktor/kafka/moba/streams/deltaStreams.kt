@@ -1,6 +1,6 @@
 package com.reaktor.kafka.moba.streams
 
-import com.reaktor.kafka.moba.ai.computeGrenateThrowAndAddDelta
+import com.reaktor.kafka.moba.ai.computeGrenadeThrowAndAddDelta
 import com.reaktor.kafka.moba.ai.computePlayerMoveAndAddDelta
 import com.reaktor.kafka.moba.model.*
 import com.reaktor.kafka.moba.serde.*
@@ -34,7 +34,7 @@ fun buildAggregatedWithDeltaStreams(inputTopic: String,
                         computePlayerMoveAndAddDelta(gameId, action, aggregated.state)
                     }
                     "gre" -> {
-                        computeGrenateThrowAndAddDelta(gameId, action, aggregated.state)
+                        computeGrenadeThrowAndAddDelta(gameId, action, aggregated.state)
                     }
                     else -> {
                         println(">>>> Unknown player action '${action.actType}'")

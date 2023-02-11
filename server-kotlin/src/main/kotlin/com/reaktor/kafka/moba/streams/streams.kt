@@ -1,7 +1,7 @@
 package com.reaktor.kafka.moba.streams
 
 import com.reaktor.kafka.moba.ai.computePlayerMove
-import com.reaktor.kafka.moba.ai.computeGrenateThrow
+import com.reaktor.kafka.moba.ai.computeGrenadeThrow
 import com.reaktor.kafka.moba.model.Action
 import com.reaktor.kafka.moba.model.GameState
 import com.reaktor.kafka.moba.model.initialGameState
@@ -58,7 +58,7 @@ fun buildAggregatedStreams(inputTopic: String, outputTopic: String, props: Prope
                 println(">>>> Computing aggregation for game $gameId")
                 when (action.actType) {
                     "mov" -> computePlayerMove(gameId, action, aggregated)
-                    "gre" -> computeGrenateThrow(gameId, action, aggregated)
+                    "gre" -> computeGrenadeThrow(gameId, action, aggregated)
                     else -> {
                         println(">>>> Unknown player action '${action.actType}'")
                         GameState(gameId, aggregated.players, aggregated.walls)

@@ -7,7 +7,7 @@ import org.apache.kafka.streams.state.StreamsMetadata
 import java.util.stream.Collectors
 
 fun streamsAllMetadata(streams: KafkaStreams): List<HostStoreInfo> {
-    // Get metadata for all of the instances of this Kafka Streams application
+    // Get metadata for all the instances of this Kafka Streams application
     return streams.allMetadata().stream().map { metadata ->
         HostStoreInfo(
             metadata.host(),
