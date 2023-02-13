@@ -1,3 +1,7 @@
+# App specific
+server-kotlin/bin/**
+server-kotlin/.idea/**
+
 # Compiled class file
 *.class
 
@@ -110,6 +114,7 @@ cmake-build-*/
 
 # IntelliJ
 out/
+
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
